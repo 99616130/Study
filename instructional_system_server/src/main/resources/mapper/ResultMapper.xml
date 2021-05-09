@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peng.server.mapper.ResultMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.peng.server.pojo.Result">
+        <result column="sid" property="sid"/>
+        <result column="tid" property="tid"/>
+        <result column="id" property="id"/>
+        <result column="grade" property="grade"/>
+        <result column="cid" property="cid"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        sid, tid, id, grade, cid
+    </sql>
+
+    <select id="getResultByAdminId" resultMap="BaseResultMap">
+        SELECT DISTINCT re.*
+        from t_admin ad,
+             t_admin_role ar,
+             t_role rl,
+             t_result re,
+             t_student st,
+             t_teacher tc,
+             t_sysclass cl,
+             t_course cs
+        where ad.id = #{id}
+          and IF(
+                ad.roleid = re.sid
+            ,
+                ad.roleid = re.sid
+            ,
+                IF(
+                        ad.roleid = re.tid
+                    ,
+                        ad.roleid = re.tid
+                    ,
+                        ad.roleid = 1000000001
+                    )
+            )
+    </select>
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peng.server.mapper.ScheduleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.peng.server.pojo.Schedule">
+        <id column="id" property="id" />
+        <result column="week" property="week" />
+        <result column="section" property="section" />
+        <result column="teacher_id" property="teacher_id" />
+        <result column="class_id" property="class_id" />
+        <result column="course_id" property="course_id" />
+        <result column="course_name" property="course_name" />
+        <result column="teacher_name" property="teacher_name" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        week, section, teacher_id, class_id, course_id, course_name, teacher_name, id
+    </sql>
+
+<!--    添加课表  CALLABLE执行存储过程-->
+    <select id="addSche" statementType="CALLABLE">
+        call addSche(#{week,mode=IN,jdbcType=BIGINT},#{section,mode=IN,jdbcType=BIGINT}
+            ,#{teacher_id,mode=IN,jdbcType=BIGINT},#{class_id,mode=IN,jdbcType=BIGINT}
+            ,#{course_id,mode=IN,jdbcType=BIGINT},#{course_name,mode=IN,jdbcType=VARCHAR}
+            ,#{teacher_name,mode=IN,jdbcType=VARCHAR},#{result,mode=OUT,jdbcType=INTEGER})
+    </select>
+    
+    <select id="getScheduleServiceByAdminId" resultMap="BaseResultMap">
+        SELECT
+            DISTINCT
+            sc.*
+        from
+            t_admin ad,
+            t_admin_role ar,
+            t_role rl,
+            t_schedule sc,
+            t_student st,
+            t_teacher tc,
+            t_sysclass cl,
+            t_course cs
+        where
+            ad.id=#{id}
+        and
+            IF(
+            <![CDATA["ad.id < 1000000"]]>
+            ,
+            ad.roleid=st.id
+        and
+            st.class_id=sc.class_id
+            ,
+            IF(
+            <![CDATA["ad.id < 1000000000"]]>
+            ,
+            ad.roleid=tc.id
+        and
+            tc.id=sc.teacher_id
+            ,
+            sc.id
+            )
+            )
+    </select>
+</mapper>

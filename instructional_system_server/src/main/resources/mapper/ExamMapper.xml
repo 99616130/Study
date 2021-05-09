@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.peng.server.mapper.ExamMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.peng.server.pojo.Exam">
+        <result column="week" property="week" />
+        <result column="section" property="section" />
+        <result column="teacher_id" property="teacher_id" />
+        <result column="course_id" property="course_id" />
+        <result column="class_id" property="class_id" />
+        <result column="course_name" property="course_name" />
+        <result column="teacher_name" property="teacher_name" />
+        <result column="id" property="id" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        week, section, teacher_id, course_id, class_id, course_name, teacher_name, id
+    </sql>
+
+    <select id="getExamServiceByAdminId" resultMap="BaseResultMap">
+        SELECT
+            DISTINCT
+            ex.*
+        from
+            t_admin ad,
+            t_admin_role ar,
+            t_role rl,
+            t_student st,
+            t_teacher tc,
+            t_sysclass cl,
+            t_course cs,
+            t_exam ex
+        where
+            ad.id=#{id}
+          and
+            IF(
+            <![CDATA["ad.id < 1000000"]]>
+                ,
+                    ad.roleid=st.id
+                        and
+                    st.class_id=ex.class_id
+                ,
+                    IF(
+            <![CDATA["ad.id < 1000000000"]]>
+                        ,
+                            ad.roleid=tc.id
+                                and
+                            tc.id=ex.teacher_id
+                        ,
+                            ex.id
+                        )
+                )
+    </select>
+</mapper>
