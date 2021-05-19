@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * <p>
@@ -48,6 +49,12 @@ public class Schedule implements Serializable {
 
     @ApiModelProperty(value = "课程表id")
     private Long id;
+
+    @ApiModelProperty(value = "开始时间")
+    private LocalDate startdate;
+
+    @ApiModelProperty(value = "结束时间")
+    private LocalDate enddate;
 
     @ApiModelProperty(value="返回结果")
     @TableField(exist = false)

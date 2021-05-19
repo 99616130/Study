@@ -1,5 +1,6 @@
 package com.peng.server.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,6 +8,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
 /**
  * <p>
@@ -48,5 +52,23 @@ public class Exam implements Serializable {
     @ApiModelProperty(value = "id")
     private Long id;
 
+    @ApiModelProperty(value = "考试时间")
+    private LocalDate time;
 
+    @ApiModelProperty(value = "开始时间")
+    private LocalTime starttime;
+
+    @ApiModelProperty(value = "结束时间")
+    private LocalTime endtime;
+
+    @ApiModelProperty(value = "教室id")
+    private Long roomid;
+
+    @ApiModelProperty(value="教室")
+    @TableField(exist = false)
+    private List<Classroom> room;
+
+//    @ApiModelProperty(value="教室")
+//    @TableField(exist = false)
+//    private String room;
 }

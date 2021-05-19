@@ -18,6 +18,9 @@ public interface IScheduleService extends IService<Schedule> {
 
     List<Schedule> getScheduleServiceByAdminId();
 
+    //获取最大id
+    RespBean maxScID();
+
     //添加课程
 //    RespBean addSche(Schedule sche);
 }

@@ -1,8 +1,10 @@
 package com.peng.server.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.peng.server.mapper.ScheduleMapper;
 import com.peng.server.pojo.Admin;
+import com.peng.server.pojo.Exam;
 import com.peng.server.pojo.RespBean;
 import com.peng.server.pojo.Schedule;
 import com.peng.server.service.IScheduleService;
@@ -11,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -30,6 +33,13 @@ public class ScheduleServiceImpl extends ServiceImpl<ScheduleMapper, Schedule> i
     public List<Schedule> getScheduleServiceByAdminId() {
         System.out.println(((Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId());
         return scheduleMapper.getScheduleServiceByAdminId(String.valueOf((((Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId())));
+    }
+
+    @Override
+    public RespBean maxScID() {
+        List<Map<String, Object>> maps = scheduleMapper.selectMaps(new QueryWrapper<Schedule>().select("MAX(id)"));
+        return RespBean.success(null,Integer.parseInt(maps.get(0).get("MAX(id)").toString())+1);
+
     }
 
 

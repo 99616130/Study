@@ -28,4 +28,9 @@ public interface IAdminService extends IService<Admin> {
     //获取所有用户
     List<Admin> getAllAdmins();
 
+    //获取最大id
+    RespBean maxAdminID();
+
+    //添加用户
+    RespBean addAdminByAdminId(Admin admin);
 }

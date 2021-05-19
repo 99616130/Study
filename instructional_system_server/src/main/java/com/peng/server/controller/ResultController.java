@@ -31,6 +31,12 @@ public class ResultController {
         return resultServicet.getResultByAdminId();
     }
 
+    @ApiOperation(value = "获取最大id")
+    @GetMapping("/maxRsID")
+    public RespBean maxScID() {
+        return resultServicet.maxRsID();
+    }
+
     @ApiOperation(value = "添加成绩")
     @PostMapping("/")
     public RespBean addResultByAdminId(@RequestBody Result result){

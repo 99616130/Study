@@ -18,8 +18,9 @@ import java.util.List;
  */
 public interface AdminMapper extends BaseMapper<Admin> {
 
-
-
     //通过用户id查询菜单列表
+    List<Admin> getAllAdmins(Long id);
+
+
 
 }

@@ -39,6 +39,12 @@ public class ScheduleController {
         return scheduleService.getScheduleServiceByAdminId();
     }
 
+    @ApiOperation(value = "获取最大id")
+    @GetMapping("/maxScID")
+    public RespBean maxScID() {
+        return scheduleService.maxScID();
+    }
+
     @ApiOperation(value = "添加课程")
     @PostMapping("/")
     public RespBean addSche(@RequestBody Schedule Sche){

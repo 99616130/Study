@@ -37,13 +37,16 @@ public class AdminController {
     @ApiOperation(value = "添加用户")
     @PostMapping("/")
     public RespBean addAdminByAdminId(@RequestBody Admin admin){
-        if(adminService.save(admin)){
-            return RespBean.success("添加成功",admin);
-        }
-        return RespBean.error("添加失败");
+        return adminService.addAdminByAdminId(admin);
     }
 
-    @ApiOperation(value = "删除成绩")
+    @ApiOperation(value = "获取最大id")
+    @GetMapping("/maxAdminID")
+    public RespBean maxAdminID() {
+        return adminService.maxAdminID();
+    }
+
+    @ApiOperation(value = "删除用户")
     @DeleteMapping("/{id}")
     public RespBean delectAdmin(@PathVariable Integer id){
         if(adminService.removeById(id)){

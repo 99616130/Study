@@ -9,12 +9,14 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author Peng
@@ -26,40 +28,60 @@ public class ExamController {
     @Autowired
     private IExamService examService;
 
-    @ApiOperation(value="查询考场")
+    @ApiOperation(value = "查询考场")
     @GetMapping("/")
-    public List<Exam> getExamServiceByAdminId(){
+    public List<Exam> getExamServiceByAdminId() {
 //        for(int i=1;i<=7;i++){
 //            jie1.set(i,scheduleService.getScheduleServiceByAdminId());
 //        }
-        System.out.println(examService.getExamServiceByAdminId());
+//        System.out.println(examService.getExamServiceByAdminId());
         //返回课表信息
+
         return examService.getExamServiceByAdminId();
+    }
+
+    @ApiOperation(value = "添加考场")
+    @PostMapping("/")
+    public RespBean addExam(@RequestBody Exam exam) {
+        //添加时间
+        //Sch.
+        //        if(1==Sche.getResult()){
+
+        if (examService.save(exam)) {
+            return RespBean.success("添加成功", exam);
+        }
+        return RespBean.error("添加失败");
     }
 
     @ApiOperation(value = "更新考场")
     @PutMapping("/")
-    public RespBean updateExam(@RequestBody Exam exam){
-        if(examService.updateById(exam)){
+    public RespBean updateExam(@RequestBody Exam exam) {
+        if (examService.updateById(exam)) {
             return RespBean.success("更新成功");
         }
         return RespBean.error("更新失败");
     }
 
-    @ApiOperation(value="删除考场")
+    @ApiOperation(value = "删除考场")
     @DeleteMapping("/{id}")
-    public RespBean delectExam(@PathVariable Integer id){
-        if(examService.removeById(id)){
-            return RespBean.success("删除成功",id);
+    public RespBean delectExam(@PathVariable Integer id) {
+        if (examService.removeById(id)) {
+            return RespBean.success("删除成功", id);
         }
         return RespBean.error("删除失败");
+    }
+
+    @ApiOperation(value = "获取最大id")
+    @GetMapping("/maxExamID")
+    public RespBean maxExamID() {
+        return examService.maxExamID();
     }
 
     //备用
     @ApiOperation(value = "批量删除")
     @DeleteMapping("/")
-    public RespBean delectExam(Integer[] sid){
-        if (examService.removeByIds(Arrays.asList(sid))){
+    public RespBean delectExam(Integer[] sid) {
+        if (examService.removeByIds(Arrays.asList(sid))) {
             return RespBean.success("删除成功");
         }
         return RespBean.error("删除失败");

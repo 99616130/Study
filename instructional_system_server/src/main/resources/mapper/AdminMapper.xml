@@ -20,7 +20,19 @@
     <sql id="Base_Column_List">
         id, name, phone, telephone, address, enabled, username, password, remark, roleid
     </sql>
-
+    
 <!--    获取所有用户-->
+    <select id="getAllAdmins" resultMap="BaseResultMap">
+        SELECT
+            a.*
+        from
+            t_admin a
+        WHERE
+            a.id!=#{id}
+    </select>
+    
+<!--    添加用户-->
+<!--    <insert id="addAdminByAdminId" >-->
 
+<!--    </insert>-->
 </mapper>

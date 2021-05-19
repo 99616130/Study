@@ -1,6 +1,7 @@
 package com.peng.server.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.peng.server.pojo.RespBean;
 import com.peng.server.pojo.Result;
 
 import java.util.List;
@@ -17,4 +18,7 @@ public interface IResultService extends IService<Result> {
 
     //查询成绩
     List<Result> getResultByAdminId();
+
+    //获取最大id
+    RespBean maxRsID();
 }

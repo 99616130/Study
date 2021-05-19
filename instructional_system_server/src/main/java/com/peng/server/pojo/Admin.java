@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +24,7 @@ import java.util.Collection;
  * @author Peng
  * @since 2021-02-14
  */
+//date注解会自动生成get、set方法
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
@@ -32,7 +35,7 @@ public class Admin implements Serializable , UserDetails {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "id")
-    @TableId(value = "id",type = IdType.AUTO)
+//    @TableId(value = "id",type = IdType.AUTO)
     private Long id;
 
     @ApiModelProperty(value = "姓名")
@@ -48,6 +51,7 @@ public class Admin implements Serializable , UserDetails {
     private String address;
 
     @ApiModelProperty(value = "是否启用")
+    @Getter(value = AccessLevel.NONE)
     private Boolean enabled;
 
     @ApiModelProperty(value = "用户名")
@@ -85,6 +89,8 @@ public class Admin implements Serializable , UserDetails {
 
     @Override
     public boolean isEnabled() {
+        if (enabled==null)
+            enabled=true;
         return enabled;
     }
 }
